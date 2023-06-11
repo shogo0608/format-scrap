@@ -13,7 +13,12 @@
             <input type="text" id="author" placeholder="著者リスト">
             <input type="button" id="author_button" value="整形">
         </p>
-        <p id="formatted_author"></p>
+        <div>
+            <p>
+                <span id="formatted_author"></span>
+                <span id="copy_author"></span>
+            </p>
+        </div>
 
         <h2>概要</h2>
         <p><a href="https://deepl.com/ja/translator" target="_blank">DeepL</a></p>
@@ -23,17 +28,27 @@
         <p>
             <input type="button" id="abstract_button" value="整形">
         </p>
-        <p id="preformatted_abstract"></p>
         <p id="formatted_abstract"></p>
+        <p id="copy_abstract"></p>
         
         <h2>arXiv から自動生成</h2>
         <p>
             <input type="text" id="arxiv_url" placeholder="https://arxiv.org/abs/2306.04632">
             <input type="button" id="arxiv_button" value="整形">
         </p>
-        <p id="arxiv_article"></p>
-        <p id="arxiv_title"></p>
-        <p id="arxiv_author"></p>
-        <p id="arxiv_abstract"></p>
+        <div id="arxiv_result" style="visibility: hidden;">
+            <h3>Title</h3>
+            <p id="arxiv_title"></p>
+            <p id="arxiv_copy_title"></p>
+            <h3>Bibliography</h3>
+            <p>
+                #arXiv #<span id="arxiv_published_year"></span><br>
+                <span id="arxiv_authors"></span><br>
+            </p>
+            <p id="arxiv_copy_bibliography"></p>
+            <h3>Abstract</h3>
+            <p id="arxiv_abstract"></p>
+            <p><a id="arxiv_deepl" target="_blank">DeepL</a></p>
+        </div>
     </body>
 </html>

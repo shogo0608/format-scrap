@@ -1,3 +1,24 @@
+function create_button(id, text, func) {
+    var button = document.createElement("button");
+    button.id = id;
+    button.innerHTML = text;
+    button.addEventListener("click", func);
+    return button;
+}
+
+function copy_to_clipboard_from_id(id) {
+    return function() {
+        copy_text = document.getElementById(id).innerHTML;
+        navigator.clipboard.writeText(copy_text);
+    }
+}
+
+function copy_to_clipboard_from_str(str) {
+    return function() {
+        navigator.clipboard.writeText(str);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     // format author list
     document.getElementById("author_button").addEventListener("click", function() {
@@ -9,6 +30,11 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         var formatted_author = formatted_author_list.join(" ");
         document.getElementById("formatted_author").innerHTML = formatted_author;
+        document.getElementById("copy_author").replaceWith(
+            create_button("copy_author", "Copy", 
+                          copy_to_clipboard_from_id("formatted_author")
+                         )
+        );
     });
 
     // format japanese abstract
@@ -46,8 +72,16 @@ document.addEventListener("DOMContentLoaded", function() {
         );
         formatted_abstract = formatted_abstract.replace(p_head, "$1 $2");
         formatted_abstract = formatted_abstract.replace(p_tail, "$1 $2");
-        document.getElementById("preformatted_abstract").innerHTML = abstract;
-        document.getElementById("formatted_abstract").innerHTML = formatted_abstract;
+        document.getElementById("formatted_abstract").innerHTML = (
+            "[*** Abstract]<br>" + formatted_abstract
+        );
+        document.getElementById("copy_abstract").replaceWith(
+            create_button("copy_abstract", "Copy", 
+                          copy_to_clipboard_from_str(
+                            "[*** Abstract]\n" + formatted_abstract
+                            )
+                         )
+        );
     });
 
     // format bibliography of arXiv article
@@ -55,36 +89,69 @@ document.addEventListener("DOMContentLoaded", function() {
         // get HTML of arXiv article from link
         var arxiv_url = document.getElementById("arxiv_url").value;
         var arxiv_id = arxiv_url.split("/").slice(-1)[0];
-        var arxiv_api_url = "https://export.arxiv.org/api/query?id_list=" + arxiv_id;
-        var arxiv_article = "";
+        var arxiv_api_url = (
+            "https://export.arxiv.org/api/query?id_list=" + arxiv_id
+        );
         fetch(arxiv_api_url)
             .then(response => response.text())
             .then(data => {
                 var parser = new DOMParser();
                 var xml = parser.parseFromString(data, "text/xml");
                 var entry = xml.getElementsByTagName("entry")[0];
+                // get title
                 var title = entry.getElementsByTagName("title")[0].innerHTML;
+                title = title.trim()
+                // get author list
                 var authors = entry.getElementsByTagName("author");
                 var author_list = [];
                 for (let i = 0; i < authors.length; i++) {
-                    author_list[i] = authors[i].getElementsByTagName("name")[0].innerHTML;
+                    author_list[i] = authors[i].getElementsByTagName("name")[0];
+                    author_list[i] = author_list[i].innerHTML;
                 }
                 var formatted_author_list = [];
                 for (let i in author_list) {
-                    formatted_author_list[i] = "#" + author_list[i].replace(" ", "_");
+                    formatted_author_list[i] = (
+                        "#" + author_list[i].replace(" ", "_")
+                    );
                 }
                 var formatted_author = formatted_author_list.join(" ");
-                var published = entry.getElementsByTagName("published")[0].innerHTML;
+                // get published year
+                var published = entry.getElementsByTagName("published")[0];
+                published = published.innerHTML;
                 var published_year = published.split("-")[0];
-                var summary = entry.getElementsByTagName("summary")[0].innerHTML;
-                var link = entry.getElementsByTagName("link")[0].getAttribute("href");
-                var arxiv_article = [
-                    title, 
-                    formatted_author, 
-                    summary, 
-                    link
-                ].join("\n");
-                document.getElementById("arxiv_article").innerHTML = arxiv_article;
-            });
+                // get summary
+                var summary = entry.getElementsByTagName("summary")[0];
+                summary = summary.innerHTML.trim();
+                var deepl_link = (
+                    "https://www.deepl.com/translator#en/ja/" + summary
+                );
+                // format bibliography
+                var bibliography = (
+                    "#arXiv #" + published_year + "\n" + formatted_author
+                );
+                // output formatted bibliography
+                document.getElementById("arxiv_result").style.visibility = "visible";
+                document.getElementById("arxiv_title").innerHTML = title;
+                document.getElementById("arxiv_published_year").innerHTML = published_year;
+                document.getElementById("arxiv_authors").innerHTML = formatted_author;
+                document.getElementById("arxiv_abstract").innerHTML = summary;
+                document.getElementById("arxiv_deepl").href = deepl_link;
+                // set copy buttons
+                var title_button = create_button(
+                    "arxiv_copy_title", "Copy",
+                    copy_to_clipboard_from_id("arxiv_title")
+                );
+                var bibliography_button = create_button(
+                    "arxiv_copy_bibliography", "Copy",
+                    copy_to_clipboard_from_str(bibliography)
+                );
+                document.getElementById("arxiv_copy_title").replaceWith(
+                    title_button
+                );
+                document.getElementById("arxiv_copy_bibliography").replaceWith(
+                    bibliography_button
+                );
+        });
     });
 }, false);
+

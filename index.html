@@ -2,6 +2,7 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
+        <script src="script.js"></script>
         <title>著者リスト・概要整形アプリ</title>
     </head>
     <body>
@@ -12,19 +13,12 @@
             <input type="text" id="author" placeholder="著者リスト">
             <input type="button" id="author_button" value="整形">
         </p>
-        <p id="formatted_author"></p>
-        <script>
-            document.getElementById("author_button").addEventListener("click", function() {
-                var author = document.getElementById("author").value;
-                let author_list = author.split(", ");
-                var formatted_author_list = [];
-                for (let i in author_list) {
-                    formatted_author_list[i] = "#" + author_list[i].replace(" ", "_");
-                }
-                var formatted_author = formatted_author_list.join(" ");
-                document.getElementById("formatted_author").innerHTML = formatted_author;
-            });
-        </script>
+        <div>
+            <p>
+                <span id="formatted_author"></span>
+                <span id="copy_author"></span>
+            </p>
+        </div>
 
         <h2>概要</h2>
         <p><a href="https://deepl.com/ja/translator" target="_blank">DeepL</a></p>
@@ -34,46 +28,27 @@
         <p>
             <input type="button" id="abstract_button" value="整形">
         </p>
-        <p id="preformatted_abstract"></p>
         <p id="formatted_abstract"></p>
-        <script>
-            document.getElementById("abstract_button").addEventListener("click", function() {
-                var abstract = document.getElementById("abstract").value;
-                var dictionary = {
-                    "、": "，",
-                    "。": "．",
-                    " \\(": "（",
-                    "\\(": "（",
-                    "\\) ": "）",
-                    "\\)": "）",
-                    "なりました": "なった",
-                    "なります．": "なる．",
-                    "します．": "する．",
-                    "いました．": "った．",
-                    "ました．": "た．",
-                    "ます．": "る．",
-                    "です．": "である．",
-                }
-                var formatted_abstract = abstract;
-                for (let key in dictionary) {
-                    formatted_abstract = formatted_abstract.replace(
-                        new RegExp(key, "g"), dictionary[key]
-                    );
-                    console.log(formatted_abstract)
-                }
-                p_head = new RegExp(
-                    "([\u3041-\u3096]|[\u30A1-\u30FA]|[々〇〻\u3400-\u9FFF\uF900-\uFAFF]|[\uD840-\uD87F][\uDC00-\uDFFF])([a-zA-Z0-9])", 
-                    "g"
-                );
-                p_tail = new RegExp(
-                    "([a-zA-Z0-9])([\u3041-\u3096]|[\u30A1-\u30FA]|[々〇〻\u3400-\u9FFF\uF900-\uFAFF]|[\uD840-\uD87F][\uDC00-\uDFFF])", 
-                    "g"
-                );
-                formatted_abstract = formatted_abstract.replace(p_head, "$1 $2");
-                formatted_abstract = formatted_abstract.replace(p_tail, "$1 $2");
-                document.getElementById("preformatted_abstract").innerHTML = abstract;
-                document.getElementById("formatted_abstract").innerHTML = formatted_abstract;
-            });
-        </script>
+        <p id="copy_abstract"></p>
+        
+        <h2>arXiv から自動生成</h2>
+        <p>
+            <input type="text" id="arxiv_url" placeholder="https://arxiv.org/abs/2306.04632">
+            <input type="button" id="arxiv_button" value="整形">
+        </p>
+        <div id="arxiv_result" style="visibility: hidden;">
+            <h3>Title</h3>
+            <p id="arxiv_title"></p>
+            <p id="arxiv_copy_title"></p>
+            <h3>Bibliography</h3>
+            <p>
+                #arXiv #<span id="arxiv_published_year"></span><br>
+                <span id="arxiv_authors"></span><br>
+            </p>
+            <p id="arxiv_copy_bibliography"></p>
+            <h3>Abstract</h3>
+            <p id="arxiv_abstract"></p>
+            <p><a id="arxiv_deepl" target="_blank">DeepL</a></p>
+        </div>
     </body>
 </html>

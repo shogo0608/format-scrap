@@ -6,14 +6,7 @@ function create_button(id, text, func) {
     return button;
 }
 
-function copy_to_clipboard_from_id(id) {
-    return function() {
-        copy_text = document.getElementById(id).innerHTML;
-        navigator.clipboard.writeText(copy_text);
-    }
-}
-
-function copy_to_clipboard_from_str(str) {
+function copy_to_clipboard(str) {
     return function() {
         navigator.clipboard.writeText(str);
     }
@@ -31,9 +24,10 @@ document.addEventListener("DOMContentLoaded", function() {
         var formatted_author = formatted_author_list.join(" ");
         document.getElementById("formatted_author").innerHTML = formatted_author;
         document.getElementById("copy_author").replaceWith(
-            create_button("copy_author", "Copy", 
-                          copy_to_clipboard_from_id("formatted_author")
-                         )
+            create_button(
+                "copy_author", "Copy", 
+                copy_to_clipboard(formatted_author)
+            )
         );
     });
 
@@ -76,11 +70,10 @@ document.addEventListener("DOMContentLoaded", function() {
             "[*** Abstract]<br>" + formatted_abstract
         );
         document.getElementById("copy_abstract").replaceWith(
-            create_button("copy_abstract", "Copy", 
-                          copy_to_clipboard_from_str(
-                            "[*** Abstract]\n" + formatted_abstract
-                            )
-                         )
+            create_button(
+                "copy_abstract", "Copy", 
+                copy_to_clipboard("[*** Abstract]\n" + formatted_abstract)
+            )
         );
     });
 
@@ -127,23 +120,25 @@ document.addEventListener("DOMContentLoaded", function() {
                 );
                 // format bibliography
                 var bibliography = (
-                    "#arXiv #" + published_year + "\n" + formatted_author
+                    "#arXiv #" + published_year + "\n" + formatted_author + "\n\n"
+                    + "Links:\nPaper: " + arxiv_url
                 );
                 // output formatted bibliography
                 document.getElementById("arxiv_result").style.visibility = "visible";
                 document.getElementById("arxiv_title").innerHTML = title;
                 document.getElementById("arxiv_published_year").innerHTML = published_year;
                 document.getElementById("arxiv_authors").innerHTML = formatted_author;
+                document.getElementById("arxiv_paper_link").innerHTML = arxiv_url;
                 document.getElementById("arxiv_abstract").innerHTML = summary;
                 document.getElementById("arxiv_deepl").href = deepl_link;
                 // set copy buttons
                 var title_button = create_button(
                     "arxiv_copy_title", "Copy",
-                    copy_to_clipboard_from_id("arxiv_title")
+                    copy_to_clipboard(title)
                 );
                 var bibliography_button = create_button(
                     "arxiv_copy_bibliography", "Copy",
-                    copy_to_clipboard_from_str(bibliography)
+                    copy_to_clipboard(bibliography)
                 );
                 document.getElementById("arxiv_copy_title").replaceWith(
                     title_button

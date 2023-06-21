@@ -2,14 +2,25 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
-	<link rel="icon", href="icon.ico">
-        <script src="script.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <link rel="icon", href="./static/image/icon.ico">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <script src="./static/js/script.js"></script>
         <title>著者リスト・概要整形アプリ</title>
     </head>
     <body>
-        <h1>著者リスト・概要整形アプリ</h1>
+        <section class="section">
+        <div class="contaier">
+            <h1 class="title">著者リスト・概要整形アプリ</h1>
+        </div>
+        </section>
 
-        <h2>著者リスト</h2>
+        <section class="section">
+        <div class="contaier">
+        <div class="columns">
+        <!-- 著者リスト -->
+        <div class="column">
+        <h2 class="title is-4">著者リスト</h2>
         <p>
             <input type="text" id="author" placeholder="著者リスト">
             <input type="button" id="author_button" value="整形">
@@ -20,7 +31,10 @@
                 <span id="copy_author"></span>
             </p>
         </div>
+        </div>
 
+        <!-- 概要 -->
+        <div class="column">
         <h2>概要</h2>
         <p><a href="https://deepl.com/ja/translator" target="_blank">DeepL</a></p>
         <p>
@@ -31,7 +45,10 @@
         </p>
         <p id="formatted_abstract"></p>
         <p id="copy_abstract"></p>
+        </div>
         
+        <!-- arXiv -->
+        <div class="column">
         <h2>arXiv から自動生成</h2>
         <p>
             <input type="text" id="arxiv_url" placeholder="https://arxiv.org/abs/2306.04632">
@@ -55,5 +72,9 @@
             <p id="arxiv_abstract"></p>
             <p><a id="arxiv_deepl" target="_blank">DeepL</a></p>
         </div>
+        </div>
+        </div>
+        </div>
+        </section>
     </body>
 </html>

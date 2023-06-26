@@ -1,5 +1,6 @@
 function create_button(id, text, func) {
     var button = document.createElement("button");
+    button.classList.add("button")
     button.id = id;
     button.innerHTML = text;
     button.addEventListener("click", func);
@@ -93,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 var entry = xml.getElementsByTagName("entry")[0];
                 // get title
                 var title = entry.getElementsByTagName("title")[0].innerHTML;
-                title = title.trim()
+                title = title.trim().replace(/\n/g, " ")
                 // get author list
                 var authors = entry.getElementsByTagName("author");
                 var author_list = [];
@@ -114,10 +115,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 var published_year = published.split("-")[0];
                 // get summary
                 var summary = entry.getElementsByTagName("summary")[0];
-                summary = summary.innerHTML.trim();
+                summary = summary.innerHTML.trim().replace(/\n/g, " ");
+                var summary_for_deepl = encodeURIComponent(summary)
                 var deepl_link = (
-                    "https://www.deepl.com/translator#en/ja/" + summary
+                    "https://deepl.com/translator#en/ja/" + summary_for_deepl
                 );
+                console.log(summary)
                 // format bibliography
                 var bibliography = (
                     "#arXiv #" + published_year + "\n" + formatted_author + "\n\n"

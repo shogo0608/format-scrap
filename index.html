@@ -2,58 +2,89 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
-	<link rel="icon", href="icon.ico">
-        <script src="script.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <link rel="icon", href="./static/image/icon.ico">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <script src="./static/js/script.js"></script>
         <title>著者リスト・概要整形アプリ</title>
     </head>
     <body>
-        <h1>著者リスト・概要整形アプリ</h1>
-
-        <h2>著者リスト</h2>
-        <p>
-            <input type="text" id="author" placeholder="著者リスト">
-            <input type="button" id="author_button" value="整形">
-        </p>
-        <div>
-            <p>
-                <span id="formatted_author"></span>
-                <span id="copy_author"></span>
-            </p>
+        <section class="hero is-link">
+        <div class="hero-body">
+        <div class="contaier">
+            <h1 class="title">著者リスト・概要整形アプリ</h1>
         </div>
+        </div>
+        </section>
 
-        <h2>概要</h2>
-        <p><a href="https://deepl.com/ja/translator" target="_blank">DeepL</a></p>
-        <p>
-            <textarea id="abstract" placeholder="概要"></textarea>
-        </p>
-        <p>
-            <input type="button" id="abstract_button" value="整形">
-        </p>
-        <p id="formatted_abstract"></p>
-        <p id="copy_abstract"></p>
+        <!-- 著者リスト -->
+        <section class="section">
+        <div class="container">
+        <h2 class="title is-4">著者リスト</h2>
+            <div class="field is-grouped">
+                <input class="input" type="text" id="author" placeholder="Author list">
+                <button class="button" id="author_button">Format</button>
+            </div>
+            <div class="field">
+                <p id="formatted_author"></p>
+                <p id="copy_author"></p>
+            </div>
+        </div>
+        </section>
+
+        <!-- 概要 -->
+        <section class="section">
+        <div class="container">
+            <h2 class="title is-4">概要</h2>
+            <div class="field">
+                <textarea class="textarea" id="abstract" placeholder="Abstract"></textarea>
+                <button class="button" id="abstract_button">Format</button>
+            </div>
+            <p id="formatted_abstract"></p>
+            <p id="copy_abstract"></p>
+        </div>
+        </section>
         
-        <h2>arXiv から自動生成</h2>
-        <p>
-            <input type="text" id="arxiv_url" placeholder="https://arxiv.org/abs/2306.04632">
-            <input type="button" id="arxiv_button" value="整形">
-        </p>
-        <div id="arxiv_result" style="visibility: hidden;">
-            <h3>Title</h3>
-            <p id="arxiv_title"></p>
-            <p id="arxiv_copy_title"></p>
-            <h3>Bibliography</h3>
-            <p>
-                #arXiv #<span id="arxiv_published_year"></span><br>
-                <span id="arxiv_authors"></span><br>
-            </p>
-            <p>
-                Links:<br>
-                Paper: <span id="arxiv_paper_link"></span>
-            </p>
-            <p id="arxiv_copy_bibliography"></p>
-            <h3>Abstract</h3>
-            <p id="arxiv_abstract"></p>
-            <p><a id="arxiv_deepl" target="_blank">DeepL</a></p>
+        <!-- arXiv -->
+        <section class="section">
+        <div class="container">
+            <h2 class="title is-4">arXiv から自動生成</h2>
+            <div class="field is-grouped">
+                <input class="input" type="text" id="arxiv_url" placeholder="https://arxiv.org/abs/2306.04632">
+                <button class="button" id="arxiv_button">Format</button>
+            </div>
         </div>
+        </section>
+
+        <section class="section">
+        <div class="columns" id="arxiv_result" style="visibility: hidden;">
+            <div class="column">
+            <div class="columns">
+            <div class="column">
+                <h3 class="title is-8">Title</h3>
+                <p id="arxiv_title"></p>
+                <p id="arxiv_copy_title"></p>
+            </div>
+            <div class="column">
+                <h3 class="title is-8">Bibliography</h3>
+                <p>
+                    #arXiv #<span id="arxiv_published_year"></span><br>
+                    <span id="arxiv_authors"></span><br>
+                </p>
+                <p>
+                    Links:<br>
+                    Paper: <span id="arxiv_paper_link"></span>
+                </p>
+                <p id="arxiv_copy_bibliography"></p>
+            </div>
+            </div>
+            </div>
+            <div class="column">
+                <h3 class="title is-8">Abstract</h3>
+                <p id="arxiv_abstract"></p>
+                <p><a id="arxiv_deepl" target="_blank">DeepL</a></p>
+            </div>
+        </div>
+        </section>
     </body>
 </html>

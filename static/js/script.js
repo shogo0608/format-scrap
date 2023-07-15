@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 var entry = xml.getElementsByTagName("entry")[0];
                 // get title
                 var title = entry.getElementsByTagName("title")[0].innerHTML;
-                title = title.trim().replace(/\n/g, " ")
+                title = title.trim().replace(/\r?\n /g, "")
                 // get author list
                 var authors = entry.getElementsByTagName("author");
                 var author_list = [];
